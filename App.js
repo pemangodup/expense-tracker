@@ -8,6 +8,7 @@ import ManageExpense from "./screens/ManageExpense";
 import RecentExpenses from "./screens/RecentExpenses";
 import AllExpenses from "./screens/AllExpenses";
 import { GlobalStyles } from "./constants/style";
+import IconButton from "./components/UI/IconButton";
 
 const NativeStack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -20,6 +21,14 @@ function ExpensesOverview() {
         headerTintColor: "white",
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            icon="add"
+            size={24}
+            color={tintColor}
+            onPress={() => {}}
+          />
+        ),
       }}
     >
       <BottomTabs.Screen
@@ -29,7 +38,12 @@ function ExpensesOverview() {
           title: "Recent Expenses",
           tabBarLabel: "Recent",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="hourglass" color={color} size={size} />
+            <Ionicons
+              name="hourglass"
+              color={color}
+              size={size}
+              onPress={() => {}}
+            />
           ),
         }}
       />
@@ -37,7 +51,7 @@ function ExpensesOverview() {
         name="AllExpenses"
         component={AllExpenses}
         options={{
-          title: "Recent Expenses",
+          title: "All Expenses",
           tabBarLabel: "Expenses",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" color={color} size={size} />
