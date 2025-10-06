@@ -2,9 +2,9 @@ import { Children, createContext, useReducer } from "react";
 
 export const ExpensesContext = createContext({
   expenses: [],
-  addExpenses: ({ description, amount, date }) => {},
-  deleteExpenses: (id) => {},
-  updateExpenses: (id, { description, amount, date }) => {},
+  addExpense: ({ description, amount, date }) => {},
+  deleteExpense: (id) => {},
+  updateExpense: (id, { description, amount, date }) => {},
 });
 
 const DUMMY_EXPENSES = [
@@ -12,7 +12,7 @@ const DUMMY_EXPENSES = [
     id: "e1",
     description: "A pair of shoes",
     amount: 59.99,
-    date: new Date("2021-12-19"),
+    date: new Date("2025-10-03"),
   },
   {
     id: "e2",
@@ -86,14 +86,14 @@ function expensesReducer(state, action) {
       return updatedExpenses;
 
     case "DELETE":
-      return state.filter((expense) => expense.id !== action.payload.id);
+      return state.filter((expense) => expense.id !== action.payload);
     default:
       return state;
   }
 }
 
 function ExpensesContextProvider({ children }) {
-  const [expesesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
+  const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
 
   function addExpense(expenseData) {
     dispatch({ type: "ADD", payload: expenseData });
@@ -107,7 +107,17 @@ function ExpensesContextProvider({ children }) {
     dispatch({ type: "UPDATE", payload: { id: id, data: expenseData } });
   }
 
-  return <ExpensesContext.Provider>{children}</ExpensesContext.Provider>;
+  const value = {
+    expenses: expensesState,
+    addExpense: addExpense,
+    deleteExpense: deleteExpense,
+    updateExpense: updateExpense,
+  };
+  return (
+    <ExpensesContext.Provider value={value}>
+      {children}
+    </ExpensesContext.Provider>
+  );
 }
 
 export default ExpensesContextProvider;
